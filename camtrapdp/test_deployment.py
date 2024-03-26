@@ -16,6 +16,7 @@ def test_write_to_csv():
             with open(file.name, "r") as new:
                 assert original.read() == new.read()
 
+
 def test_to_from_pandas():
     deployments = Deployment.from_csv("fixtures/deployments.csv")
     dataframe = Deployment.to_pandas(deployments)

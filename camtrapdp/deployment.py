@@ -1,10 +1,8 @@
 """
-Camtrap Data Package
+Camtrap Data Package deployment module
 """
 
-# flake8: N815
-
-from dataclasses import dataclass
+from dataclasses import dataclass, asdict
 from typing import Optional, List
 from enum import Enum
 from csv import DictReader, DictWriter
@@ -186,32 +184,57 @@ class Deployment:
 
     @staticmethod
     def from_csv(file_path: str) -> List["Deployment"]:
-        deployments = []
+        """
+        Read deployment objects from a CSV file.
+
+        Args:
+            file_path: Path to the CSV file.
+
+        Returns:
+            List of deployment objects.
+        """
+
         with open(file_path, "r") as file:
             reader = DictReader(file)
-            for row in reader:
-                deployment = Deployment(**row)
-                deployments.append(deployment)
-
-        return deployments
+            return [Deployment(**row) for row in reader]
 
     @staticmethod
-    def to_csv(observations: List["Deployment"], file_path: str):
+    def to_csv(deployments: List["Deployment"], file_path: str):
+        """
+        Write deployment objects to a CSV file.
+
+        Args:
+            deployments: List of deployment objects.
+            file_path: Path to the CSV file.
+        """
         with open(file_path, "w") as file:
             writer = DictWriter(file, fieldnames=Deployment.__dataclass_fields__.keys())
             writer.writeheader()
-            for deployment in observations:
-                writer.writerow(deployment.__dict__)
+            writer.writerows([asdict(m) for m in deployments])
 
     @staticmethod
-    def to_pandas(observations: List["Deployment"]):
-        return DataFrame([deployment.__dict__ for deployment in observations])
+    def to_pandas(deployments: List["Deployment"]):
+        """
+        Convert deployment objects to a pandas DataFrame.
+
+        Args:
+            deployments: List of deployment objects.
+
+        Returns:
+            DataFrame of deployment objects.
+        """
+        return DataFrame([deployment.__dict__ for deployment in deployments])
 
     @staticmethod
     def from_pandas(dataframe: DataFrame) -> List["Deployment"]:
-        deployments = []
-        for index, row in dataframe.iterrows():
-            deployment = Deployment(**row)
-            deployments.append(deployment)
+        """
+        Convert deployment objects from a pandas DataFrame.
 
-        return deployments
+        Args:
+            dataframe: DataFrame of deployment objects.
+
+        Returns:
+            List of deployment objects.
+        """
+
+        return [Deployment(**row) for index, row in dataframe.iterrows()]
