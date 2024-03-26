@@ -2,6 +2,16 @@
 
 The Camtrap Data Package Python Library is a Python library for working with the [Camtrap Data Package](https://camtrap-dp.tdwg.org/) version 1.0 format.
 
+## Installation
+
+```bash
+pip install camtrapdp
+```
+
+## Usage
+
+The `camtrapdp` package provides classes for working with the Camtrap Data Package format, reading and writing to CSV and Pandas DataFrames.
+
 ### Read an Deployments CSV file
 
 ```python
