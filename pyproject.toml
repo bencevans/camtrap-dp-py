@@ -1,6 +1,6 @@
 [project]
 name = "camtrapdp"
-version = "0.0.1"
+version = "0.1.0"
 authors = [{ name = "Benjamin C. Evans" }]
 description = "Python library for working with the Camtrap Data Package format."
 readme = "README.md"
