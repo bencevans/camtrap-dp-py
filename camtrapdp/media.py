@@ -94,7 +94,7 @@ class Media:
             List of media objects.
         """
 
-        with open(file_path, "r", encoding='utf-8-sig') as file:
+        with open(file_path, "r", encoding="utf-8-sig") as file:
             reader = DictReader(file)
             return [Media(**row) for row in reader]
 

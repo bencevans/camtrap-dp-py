@@ -12,8 +12,8 @@ def test_write_to_csv():
     media = Media.from_csv("fixtures/media.csv")
     with NamedTemporaryFile(mode="w", delete=True) as file:
         Media.to_csv(media, file.name)
-        with open("fixtures/media.csv", "r", encoding='utf-8-sig') as original:
-            with open(file.name, "r", encoding='utf-8-sig') as new:
+        with open("fixtures/media.csv", "r", encoding="utf-8-sig") as original:
+            with open(file.name, "r", encoding="utf-8-sig") as new:
                 assert original.read() == new.read()
 
 

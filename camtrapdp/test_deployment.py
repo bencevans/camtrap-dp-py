@@ -4,7 +4,6 @@ from tempfile import NamedTemporaryFile
 
 def test_read_from_csv():
     deployments = Deployment.from_csv("fixtures/deployments.csv")
-    print(deployments)
     assert len(deployments) == 4
 
 
@@ -12,8 +11,8 @@ def test_write_to_csv():
     deployments = Deployment.from_csv("fixtures/deployments.csv")
     with NamedTemporaryFile(mode="w", delete=True) as file:
         Deployment.to_csv(deployments, file.name)
-        with open("fixtures/deployments.csv", "r", encoding='utf-8-sig') as original:
-            with open(file.name, "r", encoding='utf-8-sig') as new:
+        with open("fixtures/deployments.csv", "r", encoding="utf-8-sig") as original:
+            with open(file.name, "r", encoding="utf-8-sig") as new:
                 assert original.read() == new.read()
 
 
