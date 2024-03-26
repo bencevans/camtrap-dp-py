@@ -3,28 +3,10 @@ Camtrap Data Package
 """
 
 from dataclasses import dataclass
-from typing import Optional
+from typing import Optional, List
 from enum import Enum
-
-
-class FeatureType(str, Enum):
-    """
-    Type of the feature (if any) associated with the deployment.
-    """
-
-    ROAD_PAVED = "roadPaved"
-    ROAD_DIRT = "roadDirt"
-    TRAIL_HIKING = "trailHiking"
-    TRAIL_GAME = "trailGame"
-    ROAD_UNDERPASS = "roadUnderpass"
-    ROAD_OVERPASS = "roadOverpass"
-    ROAD_BRIDGE = "roadBridge"
-    CULVERT = "culvert"
-    BURROW = "burrow"
-    NEST_SITE = "nestSite"
-    CARCASS = "carcass"
-    WATER_SOURCE = "waterSource"
-    FRUITING_TREE = "fruitingTree"
+from csv import DictReader, DictWriter
+from pandas import DataFrame
 
 
 @dataclass
@@ -92,10 +74,29 @@ class Deployment:
     baitUse: Optional[bool]
     """true if bait was used for the deployment. More information can be provided in tags or comments."""
 
+    class FeatureType(str, Enum):
+        """
+        Type of the feature (if any) associated with the deployment.
+        """
+
+        ROAD_PAVED = "roadPaved"
+        ROAD_DIRT = "roadDirt"
+        TRAIL_HIKING = "trailHiking"
+        TRAIL_GAME = "trailGame"
+        ROAD_UNDERPASS = "roadUnderpass"
+        ROAD_OVERPASS = "roadOverpass"
+        ROAD_BRIDGE = "roadBridge"
+        CULVERT = "culvert"
+        BURROW = "burrow"
+        NEST_SITE = "nestSite"
+        CARCASS = "carcass"
+        WATER_SOURCE = "waterSource"
+        FRUITING_TREE = "fruitingTree"
+
     featureType: Optional[FeatureType]
     """Type of the feature (if any) associated with the deployment."""
 
-    habitatType: Optional[str]
+    habitat: Optional[str]
     """Short characterization of the habitat at the deployment location."""
 
     deploymentGroups: Optional[str]
@@ -107,8 +108,34 @@ class Deployment:
     deploymentComments: Optional[str]
     """Comments or notes about the deployment."""
 
-    def from_csv():
-        raise NotImplementedError
+    @staticmethod
+    def from_csv(file_path: str) -> List["Deployment"]:
+        deployments = []
+        with open(file_path, "r") as file:
+            reader = DictReader(file)
+            for row in reader:
+                deployment = Deployment(**row)
+                deployments.append(deployment)
 
-    def to_csv():
-        raise NotImplementedError
+        return deployments
+
+    @staticmethod
+    def to_csv(observations: List["Deployment"], file_path: str):
+        with open(file_path, "w") as file:
+            writer = DictWriter(file, fieldnames=Deployment.__dataclass_fields__.keys())
+            writer.writeheader()
+            for deployment in observations:
+                writer.writerow(deployment.__dict__)
+
+    @staticmethod
+    def to_pandas(observations: List["Deployment"]):
+        return DataFrame([deployment.__dict__ for deployment in observations])
+
+    @staticmethod
+    def from_pandas(dataframe: DataFrame) -> List["Deployment"]:
+        deployments = []
+        for index, row in dataframe.iterrows():
+            deployment = Deployment(**row)
+            deployments.append(deployment)
+
+        return deployments
