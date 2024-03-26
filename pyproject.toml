@@ -1,0 +1,6 @@
+[project]
+name = "camtrapdp"
+version = "0.0"
+dependencies = [
+    "pandas>2, <3"
+]
