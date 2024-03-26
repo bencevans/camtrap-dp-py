@@ -194,7 +194,7 @@ class Deployment:
             List of deployment objects.
         """
 
-        with open(file_path, "r") as file:
+        with open(file_path, "r", encoding='utf-8-sig') as file:
             reader = DictReader(file)
             return [Deployment(**row) for row in reader]
 

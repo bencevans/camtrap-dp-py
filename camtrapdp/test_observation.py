@@ -3,6 +3,7 @@ from tempfile import NamedTemporaryFile
 
 
 def test_read_from_csv():
+    print(Observation.__annotations__)
     observations = Observation.from_csv("fixtures/observations.csv")
     print(observations)
     assert len(observations) == 549
@@ -10,10 +11,10 @@ def test_read_from_csv():
 
 def test_write_to_csv():
     observations = Observation.from_csv("fixtures/observations.csv")
-    with NamedTemporaryFile(mode="w", delete=False) as file:
+    with NamedTemporaryFile(mode="w", delete=True) as file:
         Observation.to_csv(observations, file.name)
-        with open("fixtures/observations.csv", "r") as original:
-            with open(file.name, "r") as new:
+        with open("fixtures/observations.csv", "r", encoding="utf-8-sig") as original:
+            with open(file.name, "r", encoding="utf-8-sig") as new:
                 assert original.read() == new.read()
 
 

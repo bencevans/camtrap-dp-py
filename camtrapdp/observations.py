@@ -263,7 +263,7 @@ class Observation:
             List of observation objects.
         """
 
-        with open(file_path, "r") as file:
+        with open(file_path, "r", encoding="utf-8-sig") as file:
             reader = DictReader(file)
             return [Observation(**row) for row in reader]
 
