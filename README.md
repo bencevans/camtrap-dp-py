@@ -38,3 +38,8 @@ deployments = [
 # Write a deployments CSV file
 Deployment.to_csv(deployments, 'deployments.csv')
 ```
+
+## Related
+
+- [Camtrap Data Package](https://camtrap-dp.tdwg.org/) - The Camtrap Data Package specification
+- [Camtrap Data Package Rust Library](https://github.com/bencevans/camtrap-dp-rs) - A Rust library for working with the Camtrap Data Package format
