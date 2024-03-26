@@ -1,4 +1,5 @@
-from .deployment import Deployment
+from .deployments import Deployment
 from .media import Media
+from .observations import Observation
 
-__all__ = ["Deployment", "Media"]
+__all__ = ["Deployment", "Media", "Observation"]
